@@ -9,6 +9,9 @@ class Person:
         self.last_name = last_name
         self.department = department
 
+    def get_unmasked_name(self):
+        return f"{self.first_name} {self.last_name}"
+
     def get_full_name(self):
         return f"{self.first_name[0]}{'*' * (len(self.first_name) - 1)} {self.last_name[0]}{'*' * (len(self.last_name) - 1)}"
 
@@ -48,7 +51,7 @@ class Doctor(Person):
     def view_patient_details(self, patient_id):
         if patient_id in Patient.patient_records:
             print("\nPatient Details:")
-            Patient.patient_records[patient_id].display_profile()
+            Patient.patient_records[patient_id].display_profile_unmasked()
         else:
             print("Patient not found in records.")
 
@@ -118,7 +121,7 @@ class Nurse(Person):
     def view_patient_details(self, patient_id):
         if patient_id in Patient.patient_records:
             print("\nPatient Details:")
-            Patient.patient_records[patient_id].display_profile()
+            Patient.patient_records[patient_id].display_profile_unmasked()
         else:
             print("Patient not found in records.")
 
@@ -134,6 +137,14 @@ class Patient(Person):
         self.admit_date = admit_date
         self.medical_costs = []  # List to store medical costs
         Patient.patient_records[self.patient_id] = self
+
+    def display_profile_unmasked(self):
+        print(f"Name: {self.get_unmasked_name()}")
+        print(f"Patient ID: {self.patient_id}")
+        print(f"Age: {self.age}")
+        print(f"Address: {self.address}")
+        print(f"Admit Date: {self.admit_date}")
+        print(f"Total Medical Bill: ${self.get_total_bill():,.2f}")
 
     def display_profile(self):
         print(f"Name: {self.get_full_name()}")
@@ -188,9 +199,9 @@ while True:
         doctor_password = input("Enter your doctor password: ")
         if (doctor_login, doctor_password) in Doctor.doctor_directory:
             doctor = Doctor.doctor_directory[(doctor_login, doctor_password)]
-            print(f"Hello Doctor {doctor.get_full_name()}")
+            print(f"Hello Doctor {doctor.get_unmasked_name()}")
             while True:
-                print("What would you like to do?")
+                print("\n\nWhat would you like to do?")
                 print("1. Create new doctor")
                 print("2. Create new nurse")
                 print("3. Create patient")
@@ -199,7 +210,7 @@ while True:
                 print("6. Update patient details")
                 print("7. Discharge patient")
                 print("8. Switch to Nurse view")
-                print("9. Exit")
+                print("9. Exit\n\n")
                 choice = int(input("Enter your choice (1-9): "))
                 if choice == 1:
                     new_doctor = doctor.add_doc_to_directory()
@@ -221,8 +232,22 @@ while True:
                 elif choice == 7:
                     doctor.discharge_patient()
                 elif choice == 8:
-                    patient_id = input("Enter Patient ID to view details: ")
-                    Nurse.view_patient_details(None, patient_id)
+                    while True:
+                        print("What would you like to do?")
+                        print("1. Create patient")
+                        print("2. View patient details")
+                        print("3. Exit")
+                        choice = int(input("Enter your choice (1-3): "))
+                        if choice == 1:
+                            Doctor.create_patient()
+                        elif choice == 2:
+                            patient_id = input("Enter Patient ID to view details: ")
+                            Nurse.view_patient_details(nurse, patient_id)
+                        elif choice == 3:
+                            print("Exiting the system...")
+                            break
+                        else:
+                            print("Invalid choice. Please try again.")
                 elif choice == 9:
                     print("Exiting the system...")
                     break
@@ -230,9 +255,9 @@ while True:
                     print("Invalid choice. Please try again.")
         elif (doctor_login, doctor_password) == ("chief", "12345"):
             doctor = default_doctor
-            print(f"Hello Doctor {doctor.get_full_name()}")
+            print(f"Hello Doctor {doctor.get_unmasked_name()}")
             while True:
-                print("What would you like to do?")
+                print("\n\nWhat would you like to do?")
                 print("1. Create new doctor")
                 print("2. Create new nurse")
                 print("3. Create patient")
@@ -241,7 +266,7 @@ while True:
                 print("6. Update patient details")
                 print("7. Discharge patient")
                 print("8. Switch to Nurse view")
-                print("9. Exit")
+                print("9. Exit\n\n")
                 choice = int(input("Enter your choice (1-9): "))
                 if choice == 1:
                     new_doctor = doctor.add_doc_to_directory()
@@ -263,8 +288,23 @@ while True:
                 elif choice == 7:
                     doctor.discharge_patient()
                 elif choice == 8:
-                    patient_id = input("Enter Patient ID to view details: ")
-                    Nurse.view_patient_details(None, patient_id)
+                    while True:
+                        print("What would you like to do?")
+                        print("1. Create patient")
+                        print("2. View patient details")
+                        print("3. Exit")
+                        choice = int(input("Enter your choice (1-3): "))
+                        if choice == 1:
+                            Doctor.create_patient()
+                        elif choice == 2:
+                            patient_id = input("Enter Patient ID to view details: ")
+                            Nurse.view_patient_details(nurse, patient_id)
+                        elif choice == 3:
+                            print("Exiting the system...")
+                            break
+                        else:
+                            print("Invalid choice. Please try again.")
+                            
                 elif choice == 9:
                     print("Exiting the system...")
                     break
