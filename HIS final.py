@@ -1,20 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
-
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[148]:
-
-
 # Doctor module
-
-
-# In[149]:
-
 
 class Person:
     def __init__(self, first_name, last_name, department):
@@ -23,23 +10,9 @@ class Person:
         self.department = department
 
     def get_full_name(self):
-        return f"{self.first_name} {self.last_name}"
-
-
-# In[150]:
-
-
-"""
-Doctor Module: doctor must login. Default login: Doctor ID = chief, Password = 12345. Doctors can create new doctors (ID and password); Create patients. 
-Create/view all patient details; order lab tests (with costs) to a patient. Discharge patient. First name, last name, specialty, phone number.
-"""
-
-
-# In[151]:
-
+        return f"{self.first_name[0]}{'*' * (len(self.first_name) - 1)} {self.last_name[0]}{'*' * (len(self.last_name) - 1)}"
 
 # Doctor module
-
 class Doctor(Person):
     doctor_directory = {}
     
@@ -54,14 +27,11 @@ class Doctor(Person):
 
     # Creating new doctor w/ ID and password - store in directory
     def add_doc_to_directory(self):
-        # Doctor inputs
         first_name = input("First name: ")
         last_name = input("Last name: ")
         department = input("Department: ")
         doctor_id = input("Create a username for the doctor: ")
         password = input("Create a password for the doctor: ")
-        
-        # Return new Doctor object and add to directory
         new_doctor = Doctor(first_name, last_name, department, doctor_id, password)
         Doctor.doctor_directory[(doctor_id, password)] = new_doctor
         return new_doctor
@@ -118,6 +88,18 @@ class Doctor(Person):
         else:
             print("Patient not found in records.")
 
+    def create_nurse(self):
+        first_name = input("Enter nurse's first name: ")
+        last_name = input("Enter nurse's last name: ")
+        department = input("Enter nurse's department: ")
+        floor_number = input("Enter nurse's floor number: ")
+        nurse_id = input("Create a username for the nurse: ")
+        password = input("Create a password for the nurse: ")
+        new_nurse = Nurse(first_name, last_name, department, floor_number, nurse_id, password)
+        Nurse.nurse_directory[(nurse_id, password)] = new_nurse
+        print("\nNurse has been successfully added!")
+        return new_nurse
+
 # Nurse module
 class Nurse(Person):
     nurse_directory = {}
@@ -131,17 +113,6 @@ class Nurse(Person):
 
     def get_nurse_id_pass(self):
         return self.nurse_id, self.password
-
-    @staticmethod
-    def create_nurse():
-        first_name = input("Enter nurse's first name: ")
-        last_name = input("Enter nurse's last name: ")
-        department = input("Enter nurse's department: ")
-        floor_number = input("Enter nurse's floor number: ")
-        nurse_id = input("Create a username for the nurse: ")
-        password = input("Create a password for the nurse: ")
-        new_nurse = Nurse(first_name, last_name, department, floor_number, nurse_id, password)
-        print("\nNurse has been successfully added!")
 
     @staticmethod
     def view_patient_details(self, patient_id):
@@ -176,10 +147,11 @@ class Patient(Person):
         self.medical_costs.append(cost)
 
     def add_lab_test(self, test_name, test_cost):
+        self.medical_costs.append(test_name)
         self.medical_costs.append(test_cost)
 
     def get_total_bill(self):
-        return sum(self.medical_costs)
+        return sum(self.medical_costs[1::2])
 
 def get_patient_info():
     first_name = input("Enter patient's first name (or 'q' to quit): ")
@@ -199,9 +171,9 @@ def create_discharge_report(patient):
     with open(filename, "w") as f:
         f.write(f"Patient Name: {patient.get_full_name()}\n")
         f.write("Lab Tests Ordered:\n")
-        for cost in patient.medical_costs:
-            f.write(f"- ${cost:.2f}\n")
-        f.write(f"Total Medical Bill: ${patient.get_total_bill():.2f}")
+        for i, (test_name, test_cost) in enumerate(zip(patient.medical_costs[::2], patient.medical_costs[1::2]), start=1):
+            f.write(f"{i}. {test_name}: ${test_cost:.2f}\n")
+        f.write(f"\nTotal Medical Bill: ${patient.get_total_bill():,.2f}")
     print(f"Discharge report for {patient.get_full_name()} has been created.")
     print(f"Filename: {filename}")
 
@@ -210,7 +182,7 @@ def create_discharge_report(patient):
 default_doctor = Doctor("Chief", "Doctor", "General", "chief", "12345")
 
 while True:
-    user_type = input("Are you a Doctor (D) or Nurse (N)? ")
+    user_type = input("Are you a Doctor (D), Nurse (N), or Patient (P)? ")
     if user_type.upper() == 'D':
         doctor_login = input("Enter your doctor username: ")
         doctor_password = input("Enter your doctor password: ")
@@ -220,34 +192,38 @@ while True:
             while True:
                 print("What would you like to do?")
                 print("1. Create new doctor")
-                print("2. Create patient")
-                print("3. View patient details")
-                print("4. Order lab tests")
-                print("5. Update patient details")
-                print("6. Discharge patient")
-                print("7. Switch to Nurse view")
-                print("8. Exit")
-                choice = int(input("Enter your choice (1-8): "))
+                print("2. Create new nurse")
+                print("3. Create patient")
+                print("4. View patient details")
+                print("5. Order lab tests")
+                print("6. Update patient details")
+                print("7. Discharge patient")
+                print("8. Switch to Nurse view")
+                print("9. Exit")
+                choice = int(input("Enter your choice (1-9): "))
                 if choice == 1:
                     new_doctor = doctor.add_doc_to_directory()
                     Doctor.doctor_directory[(new_doctor.doctor_id, new_doctor.password)] = new_doctor
                 elif choice == 2:
-                    doctor.create_patient()
+                    new_nurse = doctor.create_nurse()
+                    Nurse.nurse_directory[(new_nurse.nurse_id, new_nurse.password)] = new_nurse
                 elif choice == 3:
+                    doctor.create_patient()
+                elif choice == 4:
                     patient_id = input("Enter Patient ID to view details: ")
                     doctor.view_patient_details(patient_id)
-                elif choice == 4:
+                elif choice == 5:
                     patient_id = input("Enter Patient ID to add test order: ")
                     doctor.order_lab_tests(patient_id)
-                elif choice == 5:
+                elif choice == 6:
                     patient_id = input("Enter Patient ID to update details: ")
                     doctor.update_patient_details(patient_id)
-                elif choice == 6:
-                    doctor.discharge_patient()
                 elif choice == 7:
+                    doctor.discharge_patient()
+                elif choice == 8:
                     patient_id = input("Enter Patient ID to view details: ")
                     Nurse.view_patient_details(None, patient_id)
-                elif choice == 8:
+                elif choice == 9:
                     print("Exiting the system...")
                     break
                 else:
@@ -258,34 +234,38 @@ while True:
             while True:
                 print("What would you like to do?")
                 print("1. Create new doctor")
-                print("2. Create patient")
-                print("3. View patient details")
-                print("4. Order lab tests")
-                print("5. Update patient details")
-                print("6. Discharge patient")
-                print("7. Switch to Nurse view")
-                print("8. Exit")
-                choice = int(input("Enter your choice (1-8): "))
+                print("2. Create new nurse")
+                print("3. Create patient")
+                print("4. View patient details")
+                print("5. Order lab tests")
+                print("6. Update patient details")
+                print("7. Discharge patient")
+                print("8. Switch to Nurse view")
+                print("9. Exit")
+                choice = int(input("Enter your choice (1-9): "))
                 if choice == 1:
                     new_doctor = doctor.add_doc_to_directory()
                     Doctor.doctor_directory[(new_doctor.doctor_id, new_doctor.password)] = new_doctor
                 elif choice == 2:
-                    doctor.create_patient()
+                    new_nurse = doctor.create_nurse()
+                    Nurse.nurse_directory[(new_nurse.nurse_id, new_nurse.password)] = new_nurse
                 elif choice == 3:
+                    doctor.create_patient()
+                elif choice == 4:
                     patient_id = input("Enter Patient ID to view details: ")
                     doctor.view_patient_details(patient_id)
-                elif choice == 4:
+                elif choice == 5:
                     patient_id = input("Enter Patient ID to add test order: ")
                     doctor.order_lab_tests(patient_id)
-                elif choice == 5:
+                elif choice == 6:
                     patient_id = input("Enter Patient ID to update details: ")
                     doctor.update_patient_details(patient_id)
-                elif choice == 6:
-                    doctor.discharge_patient()
                 elif choice == 7:
+                    doctor.discharge_patient()
+                elif choice == 8:
                     patient_id = input("Enter Patient ID to view details: ")
                     Nurse.view_patient_details(None, patient_id)
-                elif choice == 8:
+                elif choice == 9:
                     print("Exiting the system...")
                     break
                 else:
@@ -316,11 +296,16 @@ while True:
                     print("Invalid choice. Please try again.")
         else:
             print("Invalid nurse credentials. Please try again.")
+    elif user_type.upper() == 'P':
+        patient_id = input("Enter your patient ID: ")
+        if patient_id in Patient.patient_records:
+            patient = Patient.patient_records[patient_id]
+            print(f"Hello {patient.get_full_name()}")
+            print(f"Your total medical bill is: ${patient.get_total_bill():,.2f}")
+        else:
+            print("Patient not found in records.")
     else:
         print("Invalid user type. Please try again.")
-
-
-# In[ ]:
 
 
 
