@@ -3,16 +3,16 @@
 
 # Doctor module
 
-class Person:
+class Person: #Person class for each of the other classes to inherit from. 
     def __init__(self, first_name, last_name, department):
         self.first_name = first_name
         self.last_name = last_name
         self.department = department
 
-    def get_unmasked_name(self):
+    def get_unmasked_name(self): #Method to get the full name of a person. 
         return f"{self.first_name} {self.last_name}"
 
-    def get_full_name(self):
+    def get_full_name(self): # Method to get masked name instead of full name for a person. 
         return f"{self.first_name[0]}{'*' * (len(self.first_name) - 1)} {self.last_name[0]}{'*' * (len(self.last_name) - 1)}"
 
 # Doctor module
@@ -105,20 +105,20 @@ class Doctor(Person):
 
 # Nurse module
 class Nurse(Person):
-    nurse_directory = {}
+    nurse_directory = {} #Directory to store nurses and nurse information in. 
 
     def __init__(self, first_name, last_name, department, floor_number, nurse_id, password):
         super().__init__(first_name, last_name, department)
-        self.floor_number = floor_number
+        self.floor_number = floor_number 
         self.nurse_id = nurse_id
         self.password = password
         Nurse.nurse_directory[(nurse_id, password)] = self
 
-    def get_nurse_id_pass(self):
+    def get_nurse_id_pass(self): #Method to get nurse ID (from optional module). 
         return self.nurse_id, self.password
 
     @staticmethod
-    def view_patient_details(self, patient_id):
+    def view_patient_details(self, patient_id): #Method to view patient details of any patient. 
         if patient_id in Patient.patient_records:
             print("\nPatient Details:")
             Patient.patient_records[patient_id].display_profile_unmasked()
