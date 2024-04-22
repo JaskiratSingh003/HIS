@@ -325,7 +325,7 @@ while True:
                 print("3. Exit")
                 choice = int(input("Enter your choice (1-3): "))
                 if choice == 1:
-                    Doctor.create_patient()
+                    get_patient_info()
                 elif choice == 2:
                     patient_id = input("Enter Patient ID to view details: ")
                     Nurse.view_patient_details(nurse, patient_id)
