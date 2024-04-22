@@ -76,7 +76,7 @@ class Doctor(Person):
         else:
             print("Patient not found in records.")
 
-    def prescribe_medication(self, patient_id):
+    def prescribe_medication(self, patient_id): # Adds medication(s) information and instructions to patient's information.
         if patient_id in Patient.patient_records:
             patient = Patient.patient_records[patient_id]
             medication_name = input("Enter medication name: ")
@@ -178,7 +178,7 @@ class Doctor(Person):
         else:
             print("Patient not found in records.")
 
-    def create_nurse(self):
+    def create_nurse(self): # Creates a nurse login. Only doctors have the ability to create a new nurse login. 
         first_name = input("Enter nurse's first name: ")
         last_name = input("Enter nurse's last name: ")
         department = input("Enter nurse's department: ")
@@ -190,7 +190,7 @@ class Doctor(Person):
         print("\nNurse has been successfully added!")
         return new_nurse
 
-    def enter_vitals(self, patient_id):
+    def enter_vitals(self, patient_id): # Adds patient's vitals to their information. Nurse can also enter vitals. 
         if patient_id in Patient.patient_records:
             patient = Patient.patient_records[patient_id]
             height = float(input("Enter patient's height (cm): "))
@@ -233,7 +233,7 @@ class Nurse(Person):
         else:
             print("Patient not found in records.")
 
-    def enter_vitals(self, patient_id):
+    def enter_vitals(self, patient_id): # Method to enter vitals. Doctor and nurse have this ability only. 
         if patient_id in Patient.patient_records:
             patient = Patient.patient_records[patient_id]
             height = float(input("Enter patient's height (cm): "))
@@ -353,7 +353,7 @@ class Patient(Person):
     def get_total_bill(self):
         return sum(self.medical_costs[1::2])
 
-    def prescribe_medication(self, medication_name, dosage, route, frequency):
+    def prescribe_medication(self, medication_name, dosage, route, frequency): # Patient is able to get their medication information. 
         self.medications.append({
             "Medication Name": medication_name,
             "Dosage": dosage,
