@@ -580,6 +580,12 @@ while True:
         else:
             print("Invalid nurse credentials. Please try again.")
     elif user_type.upper() == 'P':
-        print("Patients do not have access to this system.")
+        patient_id = input("Enter your patient ID: ")
+        if patient_id in Patient.patient_records:
+            patient = Patient.patient_records[patient_id]
+            print(f"Hello {patient.get_full_name()}")
+            print(f"Your total medical bill is: ${patient.get_total_bill():,.2f}")
+        else:
+            print("Patient not found in records.")
     else:
         print("Invalid user type. Please try again.")
