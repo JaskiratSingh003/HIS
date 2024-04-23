@@ -569,7 +569,7 @@ while True:
                 print("9. Enter patient vitals")
                 print("10. Prescribe medication")
                 print("11. Exit\n\n")
-                choice = int(input("Enter your choice (1-11): "))
+                choice = int(input("\nEnter your choice (1-11): "))
                 
                 # Create a new doctor.
                 if choice == 1:
@@ -610,13 +610,13 @@ while True:
                     
                     # The nurse will have less options to choose from than the doctor. 
                     while True:
-                        print("What would you like to do?")
+                        print("\nWhat would you like to do?")
                         print("1. Create patient")
                         print("2. View patient details")
                         print("3. Enter patient vitals")
                         print("4. Update patient details")
                         print("5. Exit")
-                        choice = int(input("Enter your choice (1-5): "))
+                        choice = int(input("\nEnter your choice (1-5): "))
         
                         # Create a patient.
                         if choice == 1:
@@ -650,7 +650,7 @@ while True:
                         
                         # Nurse did not follow the directions from the nurse's menu.
                         else:
-                            print("Invalid choice. Please try again.")
+                            print("\nInvalid choice. Please try again.")
 
                 # Enter vitals for the patient.
                 elif choice == 9:
@@ -669,7 +669,7 @@ while True:
                 
                 # Options entered were not 1-11.
                 else:
-                    print("Invalid choice. Please try again.")
+                    print("\nInvalid choice. Please try again.")
                     
         # Alternative way for the doctor to log in.
         elif (doctor_login, doctor_password) == ("chief", "12345"):
@@ -688,7 +688,7 @@ while True:
                 print("9. Enter patient vitals")
                 print("10. Prescribe medication")
                 print("11. Exit\n\n")
-                choice = int(input("Enter your choice (1-11): "))
+                choice = int(input("\nEnter your choice (1-11): "))
                 if choice == 1:
                     new_doctor = doctor.add_doc_to_directory()
                     Doctor.doctor_directory[(new_doctor.doctor_id, new_doctor.password)] = new_doctor
@@ -718,9 +718,9 @@ while True:
                     print("Exiting the system...")
                     break
                 else:
-                    print("Invalid choice. Please try again.")
+                    print("\nInvalid choice. Please try again.")
             else:
-                print("Invalid doctor credentials. Please try again.")
+                print("\nInvalid doctor credentials. Please try again.")
     
     # When the nurse login is successful, enter the nurse's menu.
     elif user_type.upper() == 'N':
@@ -734,12 +734,12 @@ while True:
 
             # Options the nurse can choose from.
             while True:
-                print("What would you like to do?")
+                print("\nWhat would you like to do?")
                 print("1. Create patient")
                 print("2. View patient details")
                 print("3. Enter patient vitals")
                 print("4. Exit")
-                choice = int(input("Enter your choice (1-4): "))
+                choice = int(input("\nEnter your choice (1-4): "))
 
                 # Create a patient.
                 if choice == 1:
@@ -762,9 +762,9 @@ while True:
                 
                 # Options chosen were not 1-4.
                 else:
-                    print("Invalid choice. Please try again.")
+                    print("\nInvalid choice. Please try again.")
         else:
-            print("Invalid nurse credentials. Please try again.")
+            print("\nInvalid nurse credentials. Please try again.")
     
     # If patient is selected from the main menu.
     elif user_type.upper() == 'P':
@@ -780,8 +780,8 @@ while True:
 
         # Patient ID was not in the system.
         else:
-            print("Patient not found in records.")
+            print("\nPatient not found in records.")
     
     # The main menu login was not either 'D', 'N', or 'P'.
     else:
-        print("Invalid user type. Please try again.")
+        print("\nInvalid user type. Please try again.")
