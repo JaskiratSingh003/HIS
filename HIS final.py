@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Doctor module
+# HIS Final
 
 class Person: #Person class for each of the other classes to inherit from. 
     def __init__(self, first_name, last_name, department):
@@ -220,7 +220,6 @@ class Nurse(Person):
     def get_nurse_id_pass(self): #Method to get nurse ID (from optional module). 
         return self.nurse_id, self.password
 
-    @staticmethod
     def view_patient_details(patient_id): #Method to view patient details of any patient.
         if patient_id in Patient.patient_records:
             print("\nPatient Details:")
