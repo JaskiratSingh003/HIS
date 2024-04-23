@@ -119,7 +119,7 @@ class Doctor(Person):
         else:
             print("Patient not found in records.")
 
-    # The prescribe_medication() method will add medication(s) information and instructions to the patient's info. 
+    # Optional Module - Meds: The prescribe_medication() method will add medication(s) information and instructions to the patient's info. 
     def prescribe_medication(self, patient_id):
 
         # If the patient ID exists in the patient records system, add in a medication.
@@ -261,7 +261,7 @@ class Doctor(Person):
         print("\nNurse has been successfully added!")
         return new_nurse
 
-    # The enter_vitals() method adds patient's vitals to their information. Nurses can also enter vitals.
+    # Optional Module - Vitals: The enter_vitals() method adds patient's vitals to their information. Nurses can also enter vitals.
     def enter_vitals(self, patient_id): 
 
         # Find the patient ID in the system and add the vitals through the inputs given.
@@ -323,7 +323,7 @@ class Nurse(Person):
         else:
             print("Patient not found in records.")
 
-    # The enter_vitals() method to enter vitals. Doctor and nurse have this ability only. 
+    # Optional Module - Vitals: The enter_vitals() method to enter vitals. Doctor and nurse have this ability only. 
     def enter_vitals(self, patient_id): 
 
         # Patient exists in the system.
@@ -523,7 +523,7 @@ def create_discharge_report(patient):
     print(f"Discharge report for {patient.get_full_name()} has been created.")
     print(f"Filename: {filename}")
 
-# Vitals Class: This class takes in the information from either the doctor or nurse and adds it into the patient information.
+# Optional Module - Vitals Class: This class takes in the information from either the doctor or nurse and adds it into the patient information.
 class Vitals:
     def __init__(self, height, weight, bp, pulse, smoker, organ_donor, dnr, dietary_restrictions):
         self.height = height
